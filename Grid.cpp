@@ -65,9 +65,9 @@ std::vector<Grid> Grid::expand() const
         moves.push_back(upMove);                                // Push the new Grid into the output vector
     
         // FIXME Test code
-        std::cout << "UP" << std::endl << std::endl;
-        upMove.print();
-        std::cout << std::endl << std::endl;
+        //std::cout << "UP" << std::endl << std::endl;
+        //upMove.print();
+        //std::cout << std::endl << std::endl;
     }
 
     // Check DOWN move
@@ -81,9 +81,9 @@ std::vector<Grid> Grid::expand() const
         moves.push_back(downMove);                              // Push the new Grid into the output vector
     
         // FIXME Test code
-        std::cout << "DOWN" << std::endl << std::endl;
-        downMove.print();
-        std::cout << std::endl << std::endl;
+        //std::cout << "DOWN" << std::endl << std::endl;
+        //downMove.print();
+        //std::cout << std::endl << std::endl;
     }
 
     // Check LEFT move
@@ -97,9 +97,9 @@ std::vector<Grid> Grid::expand() const
         moves.push_back(leftMove);                              // Push the new Grid into the output vector
     
         // FIXME Test code
-        std::cout << "LEFT" << std::endl << std::endl;
-        leftMove.print();
-        std::cout << std::endl << std::endl;
+        //std::cout << "LEFT" << std::endl << std::endl;
+        //leftMove.print();
+        //std::cout << std::endl << std::endl;
     }
 
     // Check RIGHT move
@@ -113,9 +113,9 @@ std::vector<Grid> Grid::expand() const
         moves.push_back(rightMove);                                 // Push the new Grid into the output vector
         
         // FIXME Test code
-        std::cout << "RIGHT" << std::endl << std::endl;
-        rightMove.print();
-        std::cout << std::endl << std::endl;
+        //std::cout << "RIGHT" << std::endl << std::endl;
+        //rightMove.print();
+        //std::cout << std::endl << std::endl;
     }
 
     return moves;
