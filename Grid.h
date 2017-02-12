@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 class Grid
 {
@@ -13,6 +14,10 @@ class Grid
     	void randomize();               // Creates a random grid.
     	bool solved();                  // Checks if the current grid is in a solved state.
         void print();                   // Prints the tile grid to the console.
+
+        int uniform_cost();             // Function for determining uniform cost search h(n).
+        int misplaced_tile();           // Function for determining misplaced tile h(n).
+        int manhattan();                // Function for deterining Manhattan distance h(n).
 
         std::vector<Grid> expand() const;   // Checks all legal moves, returns a std::vector of Grids
 	                                        // containing those moves.

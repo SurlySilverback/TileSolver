@@ -54,26 +54,37 @@ int main()
                     zeroRow = i;
                     zeroCol = j;
                 }
-
-                //std::cout << std::endl;
 	        }
         }
     }
-
-    std::vector< std::vector<int> > V2prime = V2;
 
     Grid g(V2, zeroRow, zeroCol);
 
     g.print();
 
-    std::cout << std::endl << g.solved() << std::endl << std::endl;
+    g.misplaced_tile();
+    g.manhattan();
 
-    g.expand();
 
-    if (V2 == V2prime)
+    // Test cout: prints "1" if input Grid is in solved state
+    std::cout << std::endl <<std::endl << g.solved() << std::endl << std::endl;
+
+/*
+    // Testing vector pointers
+    std::vector<int> *v = new std::vector<int>;
+
+    for (unsigned i = 0; i < 10 ; ++i)
     {
-        std::cout << "V2prime equals V2" <<std::endl;
+        std::cout << "Pushing back " << i << " into the vector..." << std::endl;
+        v->push_back(i);
     }
+
+    std::cout << "The contents of the vector (via pointer) are:" << std::endl;
+    for (unsigned j = 0; j < v->size() ; ++j)
+    {
+        std::cout << v->at(j) << std::endl;
+    }
+*/
 
     // Construct problem using user-entered parameters
 

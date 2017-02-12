@@ -18,8 +18,12 @@ bool Grid::solved()
 {
     int n = data.size();
 
-    for (unsigned i = 0; i < ( (n*n) - 1 ); ++i)
+    for (unsigned i = 0; i < (n*n); ++i)
     {
+        // If the tile is the blank tile, ignore it.
+        if ( data[i/n][i%n] == 0)
+            continue;
+        
         // This is a generalized algorithm for allowing the ith tile to determine its goal position.
         // When all tiles are at their goal position, the loop will exit with true.
         if ( data[i/n][i%n] != i+1 )
@@ -44,6 +48,73 @@ void Grid::print()
         
         std::cout << std::endl;
     }
+}
+
+
+// Uniform cost search unction hardcodes h(n) to zero.
+int Grid::uniform_cost()
+{
+    return 0;
+}
+
+
+// Misplaced tile determines how many tiles are out of place and returns this number.
+int Grid::misplaced_tile()
+{
+    int n = data.size();
+    int misplaced = 0;
+    
+    for (unsigned i = 0; i < (n*n); ++i)
+    {
+        // Disregard the blank tile.
+        if ( data[i/n][i%n] == 0 )
+            continue;
+
+        if ( data[i/n][i%n] != i+1 )
+            
+            ++misplaced;
+    }
+
+    // FIXME: Test cout
+    std::cout << "Misplaced distance is: " << misplaced << std::endl;
+
+    return misplaced;
+}
+
+
+// Manhattan determines each tile's distance from its goal position.
+int Grid::manhattan()
+{
+    int n = data.size();
+    int manhattan = 0;          // int for storing the total Manhattan distance.
+    int z;                      // int for holding the value of the tile we're currently looking at.
+
+    for (unsigned i = 0; i < (n*n); ++i)                                // For all the tiles...
+    {
+        z = data[i/n][i%n];                                             // Get the number on the current tile...
+
+        std::cout << "z is currently " << z << std::endl
+                  << "i is currently " << i << std::endl
+                  << "z's goalRow (z-1/n) is " << (z-1)/n << std::endl
+                  << "z's goalColumn (z-1%n) is " << (z-1)%n << std::endl;
+
+
+        if (z == 0)
+            continue;
+
+        if (z != (i+1))                                                     // ...if the current tile is out of place...
+        {
+            manhattan += ( abs( (i/n)-((z-1)/n) ) + abs( (i%n)-((z-1)%n) ) );   // ...determine its distance from its goal position
+        }                                                               // and add it to the running total.
+   
+        std::cout << "Current Manhattan value is: " << manhattan << std::endl << std::endl;
+    }
+
+
+    // FIXME: Test cout
+    std::cout << "Total Manhattan distance is: " << manhattan << std::endl;
+
+    return manhattan;
 }
 
 
