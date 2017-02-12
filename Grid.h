@@ -5,6 +5,10 @@
 #include <vector>
 #include <stdlib.h>
 
+class Grid;
+
+typedef int (Grid::*costFunc_t)() const;
+
 class Grid
 {
     public:
@@ -15,9 +19,10 @@ class Grid
     	bool solved();                  // Checks if the current grid is in a solved state.
         void print();                   // Prints the tile grid to the console.
 
-        int uniform_cost();             // Function for determining uniform cost search h(n).
-        int misplaced_tile();           // Function for determining misplaced tile h(n).
-        int manhattan();                // Function for deterining Manhattan distance h(n).
+        int h(costFunc_t);              // Function for directing the function pointer.
+        int uniform_cost() const;       // Function for determining uniform cost search h(n).
+        int misplaced_tile() const;     // Function for determining misplaced tile h(n).
+        int manhattan() const;          // Function for deterining Manhattan distance h(n).
 
         std::vector<Grid> expand() const;   // Checks all legal moves, returns a std::vector of Grids
 	                                        // containing those moves.
@@ -25,7 +30,6 @@ class Grid
     private:
         std::vector< std::vector<int> > data;   // 2D vector representing the grid state
 	    int blankRow, blankCol;                 // These ints store the coordinates of the blank tile
-        // function pointer for retrieving h(n) heuristic value
 };
 
 #endif

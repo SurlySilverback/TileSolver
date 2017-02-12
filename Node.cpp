@@ -2,9 +2,9 @@
 
 // This constructor is intended for the root node of the search graph. g_value is set to zeor, because no
 // edge traversals have been performed yet.
-Node::Node(Grid g)
+Node::Node(Grid g, int heur) : parent(NULL), children(), grid(g), heuristic(heur), g_value(0), h_value(-1), prToCostFunction(NULL)
 {
-    this->parent = NULL;
+    // Initializethe vector of Node pointers to children
     this->children = new std::vector<Node*>;
     
     Node *a = NULL, *b = NULL, *c = NULL, *d = NULL;
@@ -13,42 +13,66 @@ Node::Node(Grid g)
     children->push_back(b);
     children->push_back(c);
     children->push_back(d);
-    
-    this->grid = g;
-    this->g_value = 0;
+
+    // These if-elses assign the heuristic function pointer to the correct heuristic function in the Grid class
+    // based on the user's selection.
+    if (heur == 0)
+        ptToCostFunction = &Grid::uniform_cost;
+    else if (heur == 1)
+        ptToCostFunction = &Grid::misplaced_tile;
+    else if (heur == 2)
+        ptToCostFunction = &Grid::manhattan;
+
+    // Call to Grid's heuristic.
+    h_value = grid.h(ptToCostFunction);
 }
 
 
 // This constructor is intended for the creation of child nodes. Since the cost of a move in a sliding tile
 // is 1, the g_value of the child is always +1 of its parent.
-Node::Node(Node* parent, Grid g)
+Node::Node(Node* nodeParent, Grid g, int heur) : parent(nodeParent), children(), grid(g), heuristic(heur), g_value(nodeParent->g_value+1), h_value(-1), prToCostFunction(NULL)
 {
-    this->parent = parent;
     this->children = new std::vector<Node*>;
-    this->grid = g;
-    this->g_value = this->parent->g_value()+1;
+
+    // These if-elses assign the heuristic function pointer to the correct heuristic function in the Grid class
+    // based on the user's selection.
+    if (heur == 0)
+        ptToCostFunction = &Grid::uniform_cost;
+    else if (heur == 1)
+        ptToCostFunction = &Grid::misplaced_tile;
+    else if (heur == 2)
+        ptToCostFunction = &Grid::manhattan;
+
+    // Call to Grid's heuristic.
+    h_value = grid.h(ptToCostFunction);
 }
 
 
-Node* Node::parent() const
+Node* Node::Parent() const
 {
     return parent;
 }
 
 
-int Node::g_value() const
+int Node::G() const
 {
     return g_value;
 }
 
 
-int Node::fitness() const
+int Node::H() const
 {
-    return ( g_value + grid.h_value() ); // FIXME Grid needs an h_value retrieval method defined
+    return h_value;
 }
 
 
-void Node::expand() const
+int Node::Cost() const
+{
+    return ( g_value + h_value );
+}
+
+
+void Node::Expand() const
 {
     std::vector<Grid> temp = grid.expand();                  // Capture the output of Grid's expand().
 

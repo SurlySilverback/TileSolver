@@ -16,9 +16,9 @@ int main()
 
     std::cout << std::endl
               << "Choose a search algorithm to use:" << std::endl
-              << "Enter '1' for Uniform Cost Search" << std::endl
-              << "Enter '2' for A* with Misplaced Tile heuristic" << std::endl
-              << "Enter '3' for A* with Manhattan Distance heuristic" << std::endl << std::endl;
+              << "Enter '0' for Uniform Cost Search" << std::endl
+              << "Enter '1' for A* with Misplaced Tile heuristic" << std::endl
+              << "Enter '2' for A* with Manhattan Distance heuristic" << std::endl << std::endl;
 
     std::cin >> algorithm;
 

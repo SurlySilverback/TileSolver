@@ -51,15 +51,22 @@ void Grid::print()
 }
 
 
+// Capture's Node's function pointer.
+int Grid::h(costFunc_t f)
+{
+    return (*this.*f)();
+}
+
+
 // Uniform cost search unction hardcodes h(n) to zero.
-int Grid::uniform_cost()
+int Grid::uniform_cost() const
 {
     return 0;
 }
 
 
 // Misplaced tile determines how many tiles are out of place and returns this number.
-int Grid::misplaced_tile()
+int Grid::misplaced_tile() const
 {
     int n = data.size();
     int misplaced = 0;
@@ -83,7 +90,7 @@ int Grid::misplaced_tile()
 
 
 // Manhattan determines each tile's distance from its goal position.
-int Grid::manhattan()
+int Grid::manhattan() const
 {
     int n = data.size();
     int manhattan = 0;          // int for storing the total Manhattan distance.
@@ -93,11 +100,10 @@ int Grid::manhattan()
     {
         z = data[i/n][i%n];                                             // Get the number on the current tile...
 
-        std::cout << "z is currently " << z << std::endl
-                  << "i is currently " << i << std::endl
-                  << "z's goalRow (z-1/n) is " << (z-1)/n << std::endl
-                  << "z's goalColumn (z-1%n) is " << (z-1)%n << std::endl;
-
+       // std::cout << "z is currently " << z << std::endl
+         //         << "i is currently " << i << std::endl
+         //         << "z's goalRow (z-1/n) is " << (z-1)/n << std::endl
+         //         << "z's goalColumn (z-1%n) is " << (z-1)%n << std::endl;
 
         if (z == 0)
             continue;
@@ -107,12 +113,12 @@ int Grid::manhattan()
             manhattan += ( abs( (i/n)-((z-1)/n) ) + abs( (i%n)-((z-1)%n) ) );   // ...determine its distance from its goal position
         }                                                               // and add it to the running total.
    
-        std::cout << "Current Manhattan value is: " << manhattan << std::endl << std::endl;
+       // std::cout << "Current Manhattan value is: " << manhattan << std::endl << std::endl;
     }
 
 
     // FIXME: Test cout
-    std::cout << "Total Manhattan distance is: " << manhattan << std::endl;
+    //std::cout << "Total Manhattan distance is: " << manhattan << std::endl;
 
     return manhattan;
 }
