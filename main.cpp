@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 #include "Grid.h"
 
 int main()
-{
+{/*
     int n = 0, algorithm = 0, makeGrid = 0;
 
     std::cout << "N-Tile Sliding Puzzle Solver" << std::endl
@@ -58,16 +59,28 @@ int main()
         }
     }
 
-    Grid g(V2, zeroRow, zeroCol);
+    Grid g(V2, zeroRow, zeroCol);*/
 
-    g.print();
 
-    g.misplaced_tile();
-    g.manhattan();
+    // Messing with Priority Queue
+    
+    std::cout << "Messing with Priority Queue" << std::endl;
+    
+    int A[] = {2, 5, 7, 12, 15, 26, 37};
+
+    std::priority_queue<int, std::vector<int>, std::greater<int> > test (A, A+6);
+
+    std::cout << "The top of the test queue is: " << test.top() << std::endl;
+
+
+    //g.print();
+
+    //g.misplaced_tile();
+    //g.manhattan();
 
 
     // Test cout: prints "1" if input Grid is in solved state
-    std::cout << std::endl <<std::endl << g.solved() << std::endl << std::endl;
+    //std::cout << std::endl <<std::endl << g.solved() << std::endl << std::endl;
 
 /*
     // Testing vector pointers

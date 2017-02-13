@@ -10,20 +10,28 @@ typedef int (Grid::*costFunc_t)() const;
 class Node
 {
     public:
-        Node(Grid g, int heuristic);                // Constructor without Node pointer (used for root node).
-        Node(Node* parent, Grid g, int heuristic);  // Constructor with Node* pointing back to its parent.
+        Node(Grid g, int heuristic);                    // Constructor without Node pointer (used for root node).
+        Node(Node* parent, Grid g, int heuristic);      // Constructor with Node* pointing back to its parent.
+        ~Node();                                        // Destructor to deal with child's dynamic memory.
+
+        bool operator <(const Node &rhs);    // Defined so that the frontier (priority queue) can compare
+                                             // Nodes based on their reported costs.
 
         Node* Parent() const;           // Returns the node's parent.
         int G() const;                  // Returns the node's g_value.
         int H() const;                  // Returns the node's h_value.
         int Cost() const;               // Returns the sum (g_value + h_value).
 
-        void Expand() const;            // Calls Grid's expand() function to make new moves, assigns those
-                                        // moves to new Nodes, and pushes those Nodes into the children vector.
+        Node* Solved();                 // Node returns a pointer to itself if its Grid.solved() returns true.
+
+        std::vector<Node*>* Expand();       // Calls Grid's expand() function to make new moves, assigns those
+                                            // moves to new Nodes, and pushes those Nodes into the children vector.
+                                            // Returns pointer to children vector so GraphSearch can push new Nodes
+                                            // into the frontier.
      
     private:
         Node* parent;                   // Pointer to parent.
-        std::vector<Node*> *children;   // Vector of pointer(s) to children.
+        std::vector<Node*> *children;   // Pointer to a vector of pointers to children.
         Grid grid;                      // Grid containing current game state.
         
         int heuristic;                  // Holds the user's selection for the seach heuristic:
