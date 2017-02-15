@@ -10,17 +10,23 @@ GraphSearch::GraphSearch(Grid g, int heur) : root(g, heur), frontier()
 // This is the primary driver function for GraphSearch.
 Node* GraphSearch::Search()
 {
-    Node top(Grid(std::vector<std::vector<unsigned>>(), 0, 0), 0);
     while ( !frontier.empty() && 
-            (top = frontier.top()).Solved() == NULL )
+            frontier.top()->Solved() == NULL )
     {
-        if ( explored_map.count(frontier.top().getid() ) > 0 )     // If top of frontier IS in explored set, do not push into PQ.
+        if ( explored_map.count(frontier.top()->getid() ) > 0 )     // If top of frontier IS in explored set, do not push into PQ.
         {                                                          // Instead pop the top Node from the frontier.
+		std::cout << "Getting rid of ";
+		std::cout << std::endl;
+		std::cout << top;
             frontier.pop();
         }
 
         else
         {
+		std::cout << "Expanding " << std::endl << frontier.top();
+		// TODO: fix this. using dynamic memory, there could be problems. 
+		// perhaps make a new local node object to hold onto top's value for a bit?
+		// jsut for deleting purposes
             top = frontier.top();
             frontier.pop();
             this->Expand(top);                             // Call GraphSearch.Expand() to add top's Children to priQ
@@ -70,12 +76,15 @@ Node* GraphSearch::Solved() const
 
 void GraphSearch::Expand(Node& toad)
 {
-    std::vector<Node> temp = toad.Expand();               // Expand the Node and prepare to examine its children.
+    std::vector<Node> temp = toad->Expand();               // Expand the Node and prepare to examine its children.
+	std::cout << "The children have come to visit!" << std::endl;
 
     for (unsigned i = 0; i < temp.size(); ++i)                   // For all children produced by toad's expansion...
     {
+	std::cout << temp.at(i) << std::endl;
         if ( visited_map.count(temp.at(i).getid()) == 0 )        // ...if child is NOT in the visited_map...
         {
+		std::cout << "^^ this child is welcome to stay." << std::endl;
             visited_map.emplace( temp.at(i).getid(), 1 );        // ...insert child into the visited set...
             frontier.push( temp.at(i) );                         // ...and push it into the frontier.
         }

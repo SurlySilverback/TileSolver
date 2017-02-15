@@ -14,6 +14,7 @@ typedef int (Grid::*costFunc_t)() const;
 class Grid
 {
     public:
+	~Grid();
         Grid( std::vector< std::vector<unsigned> > data, int blankRow, int blankCol ); // Constructor accepts completed Grid
 	    //Grid(int n = 3): data(n, std::vector<int>(n,0)){}                       // Default constructor for Grid of size 3
 

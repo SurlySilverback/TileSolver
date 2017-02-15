@@ -1,5 +1,9 @@
 #include "Grid.h"
 
+Grid::~Grid() {
+	std::cout << "SHIIIIIITTTTT" << std::endl;
+}
+
 Grid::Grid( std::vector< std::vector<unsigned> > data, int blankRow, int blankCol ) : data(data),
     blankRow(blankRow), blankCol(blankCol)
 {
@@ -15,7 +19,7 @@ bool Grid::operator <(const Grid& rhs)
 
 void Grid::randomize()
 {
-    std::cerr << "TODO: randomize" << endl;
+    std::cerr << "TODO: randomize" << std::endl;
 }
 
 
