@@ -1,28 +1,33 @@
 #include "Grid.h"
 
-Grid::Grid( std::vector< std::vector<int> > data, int blankRow, int blankCol ) 
+Grid::Grid( std::vector< std::vector<unsigned> > data, int blankRow, int blankCol ) : data(data),
+    blankRow(blankRow), blankCol(blankCol)
 {
-    this->data = data;
-    this->blankRow = blankRow;
-    this->blankCol = blankCol;
+    serialize();
+}
+
+
+bool Grid::operator <(const Grid& rhs)
+{
+    return id < rhs.id;
 }
 
 
 void Grid::randomize()
 {
-
+    std::cerr << "TODO: randomize" << endl;
 }
 
 
-bool Grid::solved()
+bool Grid::solved() const
 {
-    int n = data.size();
+    unsigned n = data.size();
 
-    for (unsigned i = 0; i < (n*n); ++i)
+    for (unsigned i = 0; i < (n*n)-1; ++i)
     {
         // If the tile is the blank tile, ignore it.
-        if ( data[i/n][i%n] == 0)
-            continue;
+        //if ( data[i/n][i%n] == 0)
+            //continue;
         
         // This is a generalized algorithm for allowing the ith tile to determine its goal position.
         // When all tiles are at their goal position, the loop will exit with true.
@@ -37,13 +42,13 @@ bool Grid::solved()
 // Prints the grid to the console.
 void Grid::print()
 {
-    int n = data.size();
+    unsigned n = data.size();
 
     for (unsigned i = 0; i < n; ++i)
     {
         for (unsigned j = 0; j < n; ++j)
         {
-            std::cout << data[i][j];
+            std::cout << data[i][j] << ' ';
         }
         
         std::cout << std::endl;
@@ -58,7 +63,7 @@ int Grid::h(costFunc_t f)
 }
 
 
-// Uniform cost search unction hardcodes h(n) to zero.
+// Uniform cost search function hardcodes h(n) to zero.
 int Grid::uniform_cost() const
 {
     return 0;
@@ -68,7 +73,7 @@ int Grid::uniform_cost() const
 // Misplaced tile determines how many tiles are out of place and returns this number.
 int Grid::misplaced_tile() const
 {
-    int n = data.size();
+    unsigned n = data.size();
     int misplaced = 0;
     
     for (unsigned i = 0; i < (n*n); ++i)
@@ -92,9 +97,9 @@ int Grid::misplaced_tile() const
 // Manhattan determines each tile's distance from its goal position.
 int Grid::manhattan() const
 {
-    int n = data.size();
+    unsigned n = data.size();
     int manhattan = 0;          // int for storing the total Manhattan distance.
-    int z;                      // int for holding the value of the tile we're currently looking at.
+    unsigned z;                      // int for holding the value of the tile we're currently looking at.
 
     for (unsigned i = 0; i < (n*n); ++i)                                // For all the tiles...
     {
@@ -108,10 +113,10 @@ int Grid::manhattan() const
         if (z == 0)
             continue;
 
-        if (z != (i+1))                                                     // ...if the current tile is out of place...
+        if (z != (i+1))                                                         // ...if the current tile is out of place...
         {
             manhattan += ( abs( (i/n)-((z-1)/n) ) + abs( (i%n)-((z-1)%n) ) );   // ...determine its distance from its goal position
-        }                                                               // and add it to the running total.
+        }                                                                       // and add it to the running total.
    
        // std::cout << "Current Manhattan value is: " << manhattan << std::endl << std::endl;
     }
@@ -124,6 +129,11 @@ int Grid::manhattan() const
 }
 
 
+std::string Grid::getid() const
+{
+    return id;
+}
+
 // Checks all legal moves. For each move determined to be legal, the function will generate a Grid
 // and push that Grid into the vector.
 std::vector<Grid> Grid::expand() const
@@ -134,7 +144,7 @@ std::vector<Grid> Grid::expand() const
     // Check UP move
     if ( blankRow > 0 )
     {
-        std::vector< std::vector<int> > up = data;              // Make a copy of the grid
+        std::vector< std::vector<unsigned> > up = data;              // Make a copy of the grid
         up[blankRow][blankCol] = up[blankRow-1][blankCol];      // Move numeric tile to the blank tile's old position
         up[blankRow-1][blankCol] = 0;                           // Move blank tile
         
@@ -150,7 +160,7 @@ std::vector<Grid> Grid::expand() const
     // Check DOWN move
     if ( blankRow < (n-1) )
     {
-        std::vector< std::vector<int> > down = data;            // Make a copy of the grid
+        std::vector< std::vector<unsigned> > down = data;            // Make a copy of the grid
         down[blankRow][blankCol] = down[blankRow+1][blankCol];  // Move numeric tile to the blank tile's old position
         down[blankRow+1][blankCol] = 0;                         // Move blank tile
 
@@ -166,7 +176,7 @@ std::vector<Grid> Grid::expand() const
     // Check LEFT move
     if ( blankCol > 0 )
     {
-        std::vector< std::vector<int> > left = data;            // Make a copy of the grid
+        std::vector< std::vector<unsigned> > left = data;            // Make a copy of the grid
         left[blankRow][blankCol] = left[blankRow][blankCol-1];  // Move numeric tile to the blank tile's old position
         left[blankRow][blankCol-1] = 0;                         // Move blank tile
 
@@ -180,9 +190,9 @@ std::vector<Grid> Grid::expand() const
     }
 
     // Check RIGHT move
-    if ( blankRow < (n-1) )
+    if ( blankCol < (n-1) )
     {
-        std::vector< std::vector<int> > right = data;               // Make a copy of the grid
+        std::vector< std::vector<unsigned> > right = data;               // Make a copy of the grid
         right[blankRow][blankCol] = right[blankRow][blankCol+1];  // Move numeric tile to the blank tile's old position
         right[blankRow][blankCol+1] = 0;                            // Move blank tile
 
@@ -199,4 +209,17 @@ std::vector<Grid> Grid::expand() const
 }
 
 
+void Grid::serialize()
+{
+    std::ostringstream ss;
 
+    for (unsigned i = 0; i < data.size(); ++i)
+    {
+        for (unsigned j = 0; j < data.size(); ++j)
+        {
+            ss << data[i][j];
+        }
+    }
+
+    id = ss.str();
+}

@@ -3,10 +3,13 @@
 #include <string>
 #include <queue>
 #include "Grid.h"
+#include "Node.h"
+#include "GraphSearch.h"
 
 int main()
-{/*
-    int n = 0, algorithm = 0, makeGrid = 0;
+{
+    int algorithm = 0, makeGrid = 0;
+    unsigned n = 0;
 
     std::cout << "N-Tile Sliding Puzzle Solver" << std::endl
               << "============================" << std::endl << std::endl
@@ -34,7 +37,7 @@ int main()
     std::cout << std::endl << std::endl;
 
 
-    std::vector< std::vector<int> > V2(n, std::vector<int>(n,0) );
+    std::vector< std::vector<unsigned> > V2(n, std::vector<unsigned>(n,0) );
     int zeroRow = 0, zeroCol = 0;
 
 
@@ -59,11 +62,24 @@ int main()
         }
     }
 
-    Grid g(V2, zeroRow, zeroCol);*/
+    Grid g(V2, zeroRow, zeroCol);
+    
+    GraphSearch gs(g, algorithm);
 
+    std::cout << "gs.Search(): " << gs.Search() << std::endl;
+    Node* np = gs.Solved();
+    std::cout << "np" << np << std::endl;
+
+
+    while (np)
+    {
+        std::cout << *np << std::endl;
+        np = np->Parent();
+        std::cout << np << std::endl;
+    }
 
     // Messing with Priority Queue
-    
+    /*
     std::cout << "Messing with Priority Queue" << std::endl;
     
     int A[] = {2, 5, 7, 12, 15, 26, 37};
@@ -71,7 +87,7 @@ int main()
     std::priority_queue<int, std::vector<int>, std::greater<int> > test (A, A+6);
 
     std::cout << "The top of the test queue is: " << test.top() << std::endl;
-
+*/
 
     //g.print();
 
