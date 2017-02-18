@@ -6,12 +6,11 @@
 class Tile
 {
     public:
-	Tile(int number);
-	int Number();
+        Tile(int number);
+        int Number();
 
     private:
         int myNumber;
 };
-
 
 #endif

@@ -1,9 +1,5 @@
 #include "Grid.h"
 
-Grid::~Grid() {
-	std::cout << "SHIIIIIITTTTT" << std::endl;
-}
-
 Grid::Grid( std::vector< std::vector<unsigned> > data, int blankRow, int blankCol ) : data(data),
     blankRow(blankRow), blankCol(blankCol)
 {
@@ -148,7 +144,7 @@ std::vector<Grid> Grid::expand() const
     // Check UP move
     if ( blankRow > 0 )
     {
-        std::vector< std::vector<unsigned> > up = data;              // Make a copy of the grid
+        std::vector< std::vector<unsigned> > up = data;         // Make a copy of the grid
         up[blankRow][blankCol] = up[blankRow-1][blankCol];      // Move numeric tile to the blank tile's old position
         up[blankRow-1][blankCol] = 0;                           // Move blank tile
         

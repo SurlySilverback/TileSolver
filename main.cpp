@@ -66,17 +66,9 @@ int main()
     
     GraphSearch gs(g, algorithm);
 
-    std::cout << "gs.Search(): " << gs.Search() << std::endl;
-    Node* np = gs.Solved();
-    std::cout << "np" << np << std::endl;
-
-
-    while (np)
-    {
-        std::cout << *np << std::endl;
-        np = np->Parent();
-        std::cout << np << std::endl;
-    }
+    std::cout << "gs.Search() results:" << std::endl;
+    
+    gs.Search();
 
     // Messing with Priority Queue
     /*

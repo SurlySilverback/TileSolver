@@ -14,7 +14,6 @@ typedef int (Grid::*costFunc_t)() const;
 class Grid
 {
     public:
-	~Grid();
         Grid( std::vector< std::vector<unsigned> > data, int blankRow, int blankCol ); // Constructor accepts completed Grid
 	    //Grid(int n = 3): data(n, std::vector<int>(n,0)){}                       // Default constructor for Grid of size 3
 
@@ -29,7 +28,7 @@ class Grid
         int misplaced_tile() const;     // Function for determining misplaced tile h(n).
         int manhattan() const;          // Function for deterining Manhattan distance h(n).
         
-        std::string getid() const;           // Returns string id.
+        std::string getid() const;          // Returns string id.
 
         std::vector<Grid> expand() const;   // Checks all legal moves, returns a std::vector of Grids
 	                                        // containing those moves.
@@ -38,7 +37,7 @@ class Grid
         std::vector< std::vector<unsigned> > data;  // 2D vector representing the grid state.
 	    int blankRow, blankCol;                     // These ints store the coordinates of the blank tile.
 
-        std::string id;                                  // Unique string identifying the grid configuration.
+        std::string id;                             // Unique string identifying the grid configuration.
 
         void serialize();                           // Turns 'data' into a uniqe identifying string. This is used
                                                     // for comparisons with other grids in the explored and visited

@@ -1,0 +1,10 @@
+CC = g++
+CFLAGS = -Wall -Werror -pedantic -ansi
+CPP = main.cpp Grid.cpp Node.cpp GraphSearch.cpp
+
+all: $(CPP)
+    $(CC) $(CPP) $(CFLAGS)
+
+#clean up
+clean:
+    rm -f *.o

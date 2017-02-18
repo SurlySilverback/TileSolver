@@ -33,15 +33,18 @@ Node::Node(Node* nodeParent, Grid g, int heur) : parent(nodeParent), children(),
 
     // Call to Grid's heuristic.
     h_value = grid.h(ptToCostFunction);
+/*
+    std::cout << "I am a new child node. My grid is:" << std::endl << std::endl;
+    grid.print();
+    std::cout << std::endl << std::endl;*/
 }
-
-
+/*
 Node::~Node() {
 	for (unsigned i = 0; i < children.size(); ++i) {
 		children[i]->~Node();
 		delete children[i];
 	}
-}
+}*/
 
 
 // Comparison operator to allow the frontier (implemented as a priority queue) to compare Nodes
@@ -100,23 +103,29 @@ std::string Node::getid() const
 }
 
 
-Node* Node::Solved()
+bool Node::Solved() const
 {
     if ( grid.solved() )
-        return this;
+        return true;
 
-    else
-        return NULL;
+    return false;
 }
 
 
-std::vector<Node*> Node::Expand()
+void Node::print()
+{
+    grid.print();
+}
+
+
+std::vector<Node> Node::Expand()
 {
     std::vector<Grid> temp = grid.expand();                             // Capture the output of Grid's expand().
 
     for (unsigned i = 0; i < temp.size(); ++i)                          // Then, for all of the Node pointers in the children vector...
     {        
-        children.push_back( new Node(this, temp.at(i), this->heuristic) );  // ...and push it into the vector of this Node's children.
+        Node newChild(this, temp.at(i), this->heuristic);
+        children.push_back(newChild);                                   // ...and push it into the vector of this Node's children.
     }
 
     return children;

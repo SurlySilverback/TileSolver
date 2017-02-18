@@ -13,7 +13,7 @@ class Node
         Node(Grid g, int heuristic);                    // Constructor without Node pointer (used for root node).
         Node(Node* parent, Grid g, int heuristic);      // Constructor with Node* pointing back to its parent.
 
-        ~Node();                    // Constructor without Node pointer (used for root node).
+        //~Node();                    // Constructor without Node pointer (used for root node).
 
         bool operator <(const Node &rhs);           // Defined so that the frontier (priority queue) can compare
         bool operator <(const Node &rhs) const;     // Defined so that the frontier (priority queue) can compare
@@ -29,16 +29,17 @@ class Node
         int Cost() const;               // Returns the sum (g_value + h_value).
         std::string getid() const;      // Returns string of Node's member grid by calling its getid() function.
 
-        Node* Solved();                 // Node returns a pointer to itself if its Grid.solved() returns true.
+        bool Solved() const;            // Node returns a pointer to itself if its Grid.solved() returns true.
+        void print();                   // Calls upon Grid member "grid" to prints its grid.
 
-        std::vector<Node*> Expand();         // Calls Grid's expand() function to make new moves, assigns those
+        std::vector<Node> Expand();        // Calls Grid's expand() function to make new moves, assigns those
                                             // moves to new Nodes, and pushes those Nodes into the children vector.
                                             // Returns pointer to children vector so GraphSearch can push new Nodes
                                             // into the frontier.
      
     private:
         Node* parent;                   // Pointer to parent.
-        std::vector<Node*> children;    // Pointer to a vector of pointers to children.
+        std::vector<Node> children;    // Pointer to a vector of pointers to children.
         Grid grid;                      // Grid containing current game state.
         
         int heuristic;                  // Holds the user's selection for the seach heuristic:
