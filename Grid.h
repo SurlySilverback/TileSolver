@@ -19,6 +19,7 @@ class Grid
 
         bool operator <(const Grid& rhs);     // Compares grids by looking at their "id" string member.
 
+        void setBlank();                // Setblank row coords
     	void randomize();               // Creates a random grid.
     	bool solved() const;            // Checks if the current grid is in a solved state.
         void print();                   // Prints the tile grid to the console.

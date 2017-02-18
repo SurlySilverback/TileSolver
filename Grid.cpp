@@ -150,7 +150,7 @@ std::vector<Grid> Grid::expand() const
         
         Grid upMove( up, (blankRow-1), (blankCol) );            // Create a new Grid object with the move applied
         moves.push_back(upMove);                                // Push the new Grid into the output vector
-    
+
         // FIXME Test code
         //std::cout << "UP" << std::endl << std::endl;
         //upMove.print();

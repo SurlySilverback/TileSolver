@@ -1,16 +1,17 @@
 #include "GraphSearch.h"
 
-GraphSearch::GraphSearch(Grid g, int heur) : root(g, heur), frontier()
+GraphSearch::GraphSearch(Grid g, int heur) : root(g, heur), frontier(), solution(NULL)
 {
     frontier.push(root);
     visited_map.emplace(root.getid(), 1);
+    //solution_path.push(root); // FIXME New stuff
 }
 
 
 // This is the primary driver function for GraphSearch.
 void GraphSearch::Search()
 {
-    while ( !frontier.empty() && 
+    while ( !frontier.empty() || 
             frontier.top().Solved() == false )
     {
         if ( explored_map.count(frontier.top().getid() ) > 0 )     // If top of frontier IS in explored set, do not push into PQ.
@@ -29,13 +30,20 @@ void GraphSearch::Search()
 		// jsut for deleting purposes
             Node top = frontier.top();
             
-            std::cout << "Top of priQ is:" << std::endl << std::endl;
-            top.print();
-            std::cout << std::endl << std::endl;
+            if ( frontier.top().Solved() )
+            {
+                std::cout << "Solution depth is " << frontier.top().G() << std::endl << std::endl;
+            }
+
+            //std::cout << "Top of priQ is:" << std::endl << std::endl;
+            //top.print();
+            //std::cout << std::endl << std::endl;
             
             frontier.pop();
             this->Expand(top);                             // Call GraphSearch.Expand() to add top's Children to priQ
             explored_map.emplace( top.getid(), 1 );
+
+            //solution_path.push(top); // FIXME New stuff
         }
     }
 
@@ -74,5 +82,17 @@ void GraphSearch::Expand(Node top)
             visited_map.emplace( temp.at(i).getid(), 1 );        // ...insert child into the visited set...
             frontier.push( temp.at(i) );                         // ...and push it into the frontier.
         }
+    }
+}
+
+
+// FIXME New stuff
+void GraphSearch::printSolution()
+{
+    while (solution != NULL)
+    {
+        solution->print();
+        std::cout << std::endl << std::endl;
+        solution = solution->Parent();
     }
 }

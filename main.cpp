@@ -69,6 +69,7 @@ int main()
     std::cout << "gs.Search() results:" << std::endl;
     
     gs.Search();
+    gs.printSolution();
 
     // Messing with Priority Queue
     /*
